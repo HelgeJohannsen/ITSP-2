@@ -56,12 +56,11 @@ public class SecureFile {
             }
 
             out.write(currentM, 0, len);
-
             for (int i = 0; i < 8; i++) {
                 currentIV[i] = buffer[i];
             }
             // or
-            // System.arraycopy(buffer, 0, currentIV, 0, 8);
+            //System.arraycopy(buffer, 0, currentIV, 0, 8);
         }
     }
 
@@ -92,7 +91,7 @@ public class SecureFile {
         SecureFile sf = new SecureFile("./src/3DESTest.key");
         try {
             sf.encrypt("./src/3DESTest.key","./src/3DESTest.keync");
-            sf.decrypt("./src/3DESTest.keync","./src/3DESTest.plain");
+            sf.encrypt("./src/3DESTest.keync","./src/3DESTest.plain");
             sf.decrypt("./src/3DESTest.enc","./src/3DESTest.pdf");
         } catch (IOException e) {
             e.printStackTrace();
