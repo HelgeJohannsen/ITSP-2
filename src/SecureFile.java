@@ -88,10 +88,15 @@ public class SecureFile {
     }
 
     public static void main(String[] args) {
-        SecureFile sf = new SecureFile("./src/3DESTest.key");
         try {
+            // for some reason SecureFile has to be reinstantiated before every encrypt/decrypt call
+            SecureFile sf = new SecureFile("./src/3DESTest.key");
             sf.encrypt("./src/3DESTest.key","./src/3DESTest.keync");
-            sf.encrypt("./src/3DESTest.keync","./src/3DESTest.plain");
+            
+            sf = new SecureFile("./src/3DESTest.key");
+            sf.decrypt("./src/3DESTest.keync","./src/3DESTest.plain");
+            
+            sf = new SecureFile("./src/3DESTest.key");
             sf.decrypt("./src/3DESTest.enc","./src/3DESTest.pdf");
         } catch (IOException e) {
             e.printStackTrace();
