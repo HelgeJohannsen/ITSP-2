@@ -50,14 +50,18 @@ public class SecureFile {
         int len;
 
         while (( len = in.read(buffer)) > 0) {
-            byte[] currentC = new byte[8];
+            byte[] currentM = new byte[8];
             for (int i = 0; i < 8; i++) {
-                currentC[i] = (byte) ( tripleDES.encryptBytes(currentIV)[i] ^ buffer[i]);
+                currentM[i] = (byte) ( tripleDES.encryptBytes(currentIV)[i] ^ buffer[i]);
             }
 
-            out.write(currentC, 0, len);
+            out.write(currentM, 0, len);
 
-            currentIV = buffer;
+            for (int i = 0; i < 8; i++) {
+                currentIV[i] = buffer[i];
+            }
+            // or
+            // System.arraycopy(buffer, 0, currentIV, 0, 8);
         }
     }
 
@@ -89,6 +93,7 @@ public class SecureFile {
         try {
             sf.encrypt("./src/3DESTest.key","./src/3DESTest.keync");
             sf.decrypt("./src/3DESTest.keync","./src/3DESTest.plain");
+            sf.decrypt("./src/3DESTest.enc","./src/3DESTest.pdf");
         } catch (IOException e) {
             e.printStackTrace();
         }
